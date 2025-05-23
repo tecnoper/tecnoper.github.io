@@ -1,0 +1,485 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Recuperación de Datos por Peritajes Profesionales. Recuperamos información perdida o eliminada de cualquier dispositivo con técnicas avanzadas. Primera consulta gratuita.">
+  <meta name="keywords" content="recuperación de datos, peritaje informático, informática forense, datos perdidos, peritajes profesionales, ciberseguridad, recuperación de archivos, discos duros">
+  <meta name="author" content="Peritajes Profesionales">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Recuperación de Datos | Peritajes Profesionales">
+  <meta property="og:description" content="Expertos en recuperar datos perdidos o eliminados de cualquier dispositivo con técnicas forenses avanzadas. Primera consulta gratuita.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.peritajesprofesionales.com/servicios/recuperacion-datos.html">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80">
+  <link rel="canonical" href="https://www.peritajesprofesionales.com/servicios/recuperacion-datos.html">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .smooth-scroll { scroll-behavior: smooth; }
+    .slide-in { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .slide-in.visible { opacity: 1; transform: translateX(0); }
+    .hover-scale { transition: transform 0.3s ease; }
+    .hover-scale:hover { transform: scale(1.05); }
+    .bg-hero { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+    .modal-content { background: #1e3a8a; color: white; max-width: 600px; margin: 15% auto; padding: 30px; border-radius: 15px; text-align: center; animation: slideIn 0.7s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    @keyframes slideIn { from { transform: translateY(-100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .cookies-banner { position: fixed; bottom: 0; width: 100%; background: #1a202c; color: white; padding: 15px; z-index: 999; }
+    .section-heading { transition: color 0.3s ease; }
+    .section-heading:hover { color: #f8c107; }
+    .content-block, .case-card, .faq-step { transition: background 0.3s ease, transform 0.3s ease; }
+    .content-block:hover, .case-card:hover, .faq-step:hover { background: #f3f4f6; transform: translateY(-5px); }
+    .faq-step { position: relative; padding-left: 60px; }
+    .faq-step .number { position: absolute; left: 0; top: 0; width: 40px; height: 40px; background: #1e3a8a; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans smooth-scroll">
+  <!-- Header (Copied from index.html) -->
+  <header class="bg-blue-900 text-white sticky top-0 z-50 shadow-lg">
+    <nav class="container mx-auto flex items-center justify-between py-4 px-6">
+      <div class="flex items-center space-x-3">
+        <img src="https://placehold.co/50x50?text=Logo" alt="Logo de Peritajes Profesionales" class="w-12 h-12">
+        <div class="text-2xl font-bold">
+          <a href="/">Peritajes Profesionales</a>
+        </div>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="/#inicio" class="hover:text-blue-300">Inicio</a>
+        <a href="/#servicios" class="hover:text-blue-300">Servicios</a>
+        <a href="/#equipo" class="hover:text-blue-300">Nuestro Equipo</a>
+        <a href="/#testimonios" class="hover:text-blue-300">Testimonios</a>
+        <a href="/#contacto" class="hover:text-blue-300">Contacto</a>
+      </div>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white">
+      <a href="/#inicio" class="block py-2 px-6 hover:bg-blue-700">Inicio</a>
+      <a href="/#servicios" class="block py-2 px-6 hover:bg-blue-700">Servicios</a>
+      <a href="/#equipo" class="block py-2 px-6 hover:bg-blue-700">Nuestro Equipo</a>
+      <a href="/#testimonios" class="block py-2 px-6 hover:bg-blue-700">Testimonios</a>
+      <a href="/#contacto" class="block py-2 px-6 hover:bg-blue-700">Contacto</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="bg-hero bg-cover bg-center text-white py-24">
+    <div class="container mx-auto text-center px-6">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 slide-in">Recuperación de Datos</h1>
+      <p class="text-lg md:text-xl mb-6 slide-in">Recuperamos información perdida o eliminada de cualquier dispositivo con técnicas forenses avanzadas, garantizando resultados fiables.</p>
+      <a href="/#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale slide-in">Solicita tu Consulta Gratuita</a>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <!-- Overview -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Recuperación de Datos con Precisión Forense</h2>
+        <div class="content-block bg-gray-50 p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-database mr-2 text-blue-700"></i>
+                ¿Qué es la Recuperación de Datos?
+              </h3>
+              <p class="text-lg text-gray-700 leading-relaxed mb-4">La recuperación de datos es el proceso de restaurar información perdida, eliminada o corrupta desde dispositivos electrónicos, como discos duros, móviles o servidores. En Peritajes Profesionales, utilizamos técnicas forenses avanzadas para recuperar datos críticos en casos judiciales, empresariales o personales.</p>
+              <p class="text-lg text-gray-700 leading-relaxed">Nuestros peritos certificados trabajan con precisión para garantizar la integridad de los datos recuperados, asegurando su validez en tribunales o su uso operativo.</p>
+            </div>
+            <div>
+              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Recuperación de datos" class="w-full h-64 object-cover rounded-lg shadow-md">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recovery Process -->
+    <div class="bg-gray-100 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Nuestro Proceso de Recuperación</h2>
+        <div class="content-block bg-white p-8 rounded-lg shadow-md slide-in">
+          <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+            <i class="fas fa-cogs mr-2 text-blue-700"></i>
+            Pasos Clave
+          </h3>
+          <ol class="list-decimal pl-6 text-lg text-gray-700">
+            <li><strong>Evaluación Inicial:</strong> Analizamos el dispositivo para determinar la viabilidad de recuperación.</li>
+            <li><strong>Creación de Imagen Forense:</strong> Generamos una copia bit a bit para preservar los datos originales.</li>
+            <li><strong>Análisis y Recuperación:</strong> Usamos herramientas avanzadas para restaurar datos perdidos.</li>
+            <li><strong>Validación:</strong> Verificamos la integridad de los datos recuperados.</li>
+            <li><strong>Entrega Segura:</strong> Devolvemos los datos en un formato seguro y utilizable.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Beneficios de Nuestra Recuperación</h2>
+        <div class="content-block bg-gray-50 p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-database text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Alta Tasa de Éxito</h4>
+              <p class="text-gray-700">Recuperamos datos en la mayoría de los casos, incluso en dispositivos dañados.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-user-check text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Expertos Certificados</h4>
+              <p class="text-gray-700">Peritos con certificaciones CFCE y CCE.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-shield-alt text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Confidencialidad</h4>
+              <p class="text-gray-700">Protección de datos con protocolos avanzados.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-tools text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Tecnología Avanzada</h4>
+              <p class="text-gray-700">Herramientas como R-Studio y PC-3000 para resultados precisos.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-clock text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Eficiencia</h4>
+              <p class="text-gray-700">Recuperación rápida para minimizar interrupciones.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-balance-scale text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Validez Legal</h4>
+              <p class="text-gray-700">Datos recuperados admisibles en tribunales.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Methodologies and Tools -->
+    <div class="bg-gray-100 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Metodologías y Herramientas</h2>
+        <div class="content-block bg-white p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-book mr-2 text-blue-700"></i>
+                Metodologías Forenses
+              </h3>
+              <p class="text-lg text-gray-700 leading-relaxed mb-4">Seguimos estándares como ISO/IEC 27037 y NIST SP 800-86 para garantizar la integridad de los datos. Nuestras metodologías incluyen análisis no destructivo, verificación de hash y auditorías de cadena de custodia, asegurando que los datos sean judicialmente válidos si es necesario.</p>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-tools mr-2 text-blue-700"></i>
+                Herramientas Especializadas
+              </h3>
+              <ul class="list-disc pl-6 text-lg text-gray-700">
+                <li><strong>R-Studio:</strong> Recuperación de datos en múltiples sistemas de archivos.</li>
+                <li><strong>PC-3000:</strong> Reparación y recuperación de discos dañados.</li>
+                <li><strong>EnCase Forensic:</strong> Análisis forense de datos recuperados.</li>
+                <li><strong>TestDisk:</strong> Restauración de particiones perdidas.</li>
+                <li><strong>Recuva:</strong> Recuperación de archivos eliminados.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-lg text-gray-700 leading-relaxed mt-4">Estas herramientas nos permiten abordar una amplia gama de escenarios, desde fallos de hardware hasta eliminaciones accidentales o maliciosas.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Studies -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Casos de Éxito</h2>
+        <div class="content-block bg-gray-50 p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="case-card bg-white p-6 rounded-lg shadow-md">
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Ciberataque Empresarial</h4>
+              <p class="text-gray-700">Recuperamos datos críticos tras un ataque ransomware, salvando operaciones.</p>
+            </div>
+            <div class="case-card bg-white p-6 rounded-lg shadow-md">
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Fallo de Disco Duro</h4>
+              <p class="text-gray-700">Restauramos archivos empresariales de un disco dañado, evitando pérdidas.</p>
+            </div>
+            <div class="case-card bg-white p-6 rounded-lg shadow-md">
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Eliminación Accidental</h4>
+              <p class="text-gray-700">Recuperamos documentos legales eliminados, apoyando un caso judicial.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQs Stepped Section -->
+    <div class="bg-gray-100 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Preguntas Frecuentes</h2>
+        <div class="space-y-6">
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">1</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Qué es la recuperación de datos?</h3>
+            <p class="text-gray-700">Restaurar información perdida, eliminada o corrupta desde dispositivos electrónicos.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">2</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Qué dispositivos pueden recuperarse?</h3>
+            <p class="text-gray-700">Discos duros, móviles, tablets, servidores, USB y más.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">3</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Cuánto tiempo tarda la recuperación?</h3>
+            <p class="text-gray-700">De 1-3 semanas, dependiendo del daño y la complejidad.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">4</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Los datos recuperados son válidos en tribunales?</h3>
+            <p class="text-gray-700">Sí, usamos métodos forenses para garantizar su admisibilidad.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">5</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Ofrecen consultas gratuitas?</h3>
+            <p class="text-gray-700">Sí, ofrecemos una primera consulta gratuita para evaluar tu caso.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">6</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Cómo garantizan la confidencialidad?</h3>
+            <p class="text-gray-700">Con medidas de seguridad y acuerdos de confidencialidad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="bg-blue-900 text-white py-16">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 slide-in">Recupera tus Datos con Expertos</h2>
+        <p class="text-lg mb-6 slide-in">Confía en Peritajes Profesionales para restaurar datos críticos con fiabilidad y confidencialidad. Contáctanos para una consulta gratuita.</p>
+        <a href="/#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale slide-in">Solicitar Consulta</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings-modal" class="modal">
+    <div class="modal-content">
+      <button id="close-cookie-modal" class="absolute top-4 right-4 text-white hover:text-gray-300"><i class="fas fa-times text-xl"></i></button>
+      <h2 class="text-3xl font-bold mb-4">Configuración de Cookies</h2>
+      <p class="text-lg mb-6">Personaliza tus preferencias de cookies para nuestro sitio web.</p>
+      <div class="space-y-6">
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" checked disabled class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies Esenciales (Siempre activas)</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Necesarias para el funcionamiento del sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="performance-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Rendimiento</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Recopilan datos anónimos para mejorar el sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="advertising-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Publicidad</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Ofrecen anuncios personalizados.</p>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-center space-x-4">
+        <button id="save-cookie-settings" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookies Banner (Copied from index.html) -->
+  <div id="cookies-banner" class="cookies-banner hidden">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <p>Utilizamos cookies para mejorar tu experiencia. <a href="/legal/politica-cookies.html" class="underline">Más información</a>.</p>
+      <div class="mt-4 md:mt-0 space-x-4">
+        <button id="accept-cookies" class="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Aceptar</button>
+        <button id="customize-cookies" class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500">Personalizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (Copied from index.html) -->
+  <footer class="bg-blue-900 text-white py-10">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Peritajes Profesionales</h3>
+          <p>Soluciones periciales en informática forense y más. Primera consulta gratuita.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Enlaces Rápidos</h3>
+          <ul class="space-y-2">
+            <li><a href="#inicio" class="hover:text-blue-300">Inicio</a></li>
+            <li><a href="#servicios" class="hover:text-blue-300">Servicios</a></li>
+            <li><a href="#equipo" class="hover:text-blue-300">Nuestro Equipo</a></li>
+            <li><a href="#contacto" class="hover:text-blue-300">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Políticas Legales</h3>
+          <ul class="space-y-2">
+            <li><a href="/legal/privacidad.html" class="hover:text-blue-300">Política de Privacidad</a></li>
+            <li><a href="/legal/politica-cookies.html" class="hover:text-blue-300">Política de Cookies</a></li>
+            <li><a href="/legal/aviso-legal.html" class="hover:text-blue-300">Aviso Legal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Síguenos</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-linkedin text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-twitter text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fas fa-envelope text-2xl"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="text-center mt-8">© 2025 Peritajes Profesionales. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Cookie Helper Functions (Copied from index.html)
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+    function getCookie(name) {
+      const cname = name + "=";
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(cname) == 0) {
+          return c.substring(cname.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    // Cookies Banner Logic
+    const cookiesBanner = document.getElementById('cookies-banner');
+    const acceptCookies = document.getElementById('accept-cookies');
+    const customizeCookies = document.getElementById('customize-cookies');
+    const cookieSettingsModal = document.getElementById('cookie-settings-modal');
+    const closeCookieModal = document.getElementById('close-cookie-modal');
+    const saveCookieSettings = document.getElementById('save-cookie-settings');
+
+    if (!getCookie('cookiesAccepted')) {
+      cookiesBanner.classList.remove('hidden');
+    }
+
+    acceptCookies.addEventListener('click', () => {
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', 'true', 365);
+      setCookie('advertisingCookies', 'true', 365);
+      cookiesBanner.classList.add('hidden');
+    });
+
+    customizeCookies.addEventListener('click', () => {
+      cookiesBanner.classList.add('hidden');
+      cookieSettingsModal.style.display = 'block';
+    });
+
+    saveCookieSettings.addEventListener('click', () => {
+      const performance = document.getElementById('performance-cookies').checked;
+      const advertising = document.getElementById('advertising-cookies').checked;
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', performance, 365);
+      setCookie('advertisingCookies', advertising, 365);
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    closeCookieModal.addEventListener('click', () => {
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Slide-in Animation on Scroll
+    const slideElements = document.querySelectorAll('.slide-in');
+    const slideObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    slideElements.forEach(el => slideObserver.observe(el));
+
+    // Scroll to Top Button
+    const scrollTopBtn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.remove('hidden');
+      } else {
+        scrollTopBtn.classList.add('hidden');
+      }
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aviso Legal de Peritajes Profesionales. Información sobre términos de uso, propiedad intelectual y responsabilidades legales.">
+  <meta name="keywords" content="aviso legal, peritajes profesionales, términos de uso, propiedad intelectual, responsabilidad legal, datos personales, cookies">
+  <meta name="author" content="Peritajes Profesionales">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Aviso Legal | Peritajes Profesionales">
+  <meta property="og:description" content="Consulta el Aviso Legal de Peritajes Profesionales, incluyendo términos de uso, propiedad intelectual y responsabilidades legales.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.peritajesprofesionales.com/legal/aviso-legal.html">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80">
+  <link rel="canonical" href="https://www.peritajesprofesionales.com/legal/aviso-legal.html">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .smooth-scroll { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transition: opacity 1s ease-in; }
+    .fade-in.visible { opacity: 1; }
+    .hover-scale { transition: transform 0.3s ease; }
+    .hover-scale:hover { transform: scale(1.05); }
+    .bg-hero { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+    .modal-content { background: #1e3a8a; color: white; max-width: 600px; margin: 15% auto; padding: 30px; border-radius: 15px; text-align: center; animation: slideIn 0.7s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    @keyframes slideIn { from { transform: translateY(-100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .cookies-banner { position: fixed; bottom: 0; width: 100%; background: #1a202c; color: white; padding: 15px; z-index: 999; }
+    .section-heading { transition: color 0.3s ease; }
+    .section-heading:hover { color: #f8c107; }
+    .content-block { transition: background 0.3s ease, transform 0.3s ease; border-left: 4px solid transparent; }
+    .content-block:hover { background: #f3f4f6; transform: translateY(-5px); border-left: 4px solid #f8c107; }
+    .nav-menu { position: sticky; top: 100px; }
+    .nav-menu a { transition: color 0.3s ease; }
+    .nav-menu a:hover { color: #f8c107; }
+    .contact-block { background: #f8f9fa; border-radius: 8px; padding: 1.5rem; }
+    .contact-block:hover { background: #e5e7eb; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans smooth-scroll">
+  <!-- Header (Copied from index.html) -->
+  <header class="bg-blue-900 text-white sticky top-0 z-50 shadow-lg">
+    <nav class="container mx-auto flex items-center justify-between py-4 px-6">
+      <div class="flex items-center space-x-3">
+        <img src="https://placehold.co/50x50?text=Logo" alt="Logo de Peritajes Profesionales" class="w-12 h-12">
+        <div class="text-2xl font-bold">
+          <a href="/">Peritajes Profesionales</a>
+        </div>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="/#inicio" class="hover:text-blue-300">Inicio</a>
+        <a href="/#servicios" class="hover:text-blue-300">Servicios</a>
+        <a href="/#equipo" class="hover:text-blue-300">Nuestro Equipo</a>
+        <a href="/#testimonios" class="hover:text-blue-300">Testimonios</a>
+        <a href="/#contacto" class="hover:text-blue-300">Contacto</a>
+      </div>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white">
+      <a href="/#inicio" class="block py-2 px-6 hover:bg-blue-700">Inicio</a>
+      <a href="/#servicios" class="block py-2 px-6 hover:bg-blue-700">Servicios</a>
+      <a href="/#equipo" class="block py-2 px-6 hover:bg-blue-700">Nuestro Equipo</a>
+      <a href="/#testimonios" class="block py-2 px-6 hover:bg-blue-700">Testimonios</a>
+      <a href="/#contacto" class="block py-2 px-6 hover:bg-blue-700">Contacto</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="bg-hero bg-cover bg-center text-white py-24">
+    <div class="container mx-auto text-center px-6">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">Aviso Legal</h1>
+      <p class="text-lg md:text-xl mb-6 fade-in">Conoce los términos legales que rigen el uso de nuestro sitio web y servicios en Peritajes Profesionales.</p>
+      <a href="#identidad" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale fade-in">Leer Más</a>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section py-16 bg-gray-100">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Navigation Menu -->
+        <div class="lg:col-span-1">
+          <div class="nav-menu bg-white p-6 rounded-lg shadow-md fade-in">
+            <h3 class="text-xl font-semibold text-blue-900 mb-4">Navegar Aviso Legal</h3>
+            <ul class="list-none text-lg text-gray-700">
+              <li class="mb-2"><a href="#identidad" class="text-blue-600 hover:underline">Identidad del Responsable</a></li>
+              <li class="mb-2"><a href="#condiciones" class="text-blue-600 hover:underline">Condiciones de Uso</a></li>
+              <li class="mb-2"><a href="#propiedad" class="text-blue-600 hover:underline">Propiedad Intelectual</a></li>
+              <li class="mb-2"><a href="#responsabilidades" class="text-blue-600 hover:underline">Responsabilidades</a></li>
+              <li class="mb-2"><a href="#proteccion" class="text-blue-600 hover:underline">Protección de Datos</a></li>
+              <li class="mb-2"><a href="#cookies" class="text-blue-600 hover:underline">Uso de Cookies</a></li>
+              <li class="mb-2"><a href="#ley" class="text-blue-600 hover:underline">Ley Aplicable</a></li>
+              <li class="mb-2"><a href="#contacto" class="text-blue-600 hover:underline">Contacto Legal</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Main Legal Content -->
+        <div class="lg:col-span-3">
+          <!-- Identidad del Responsable -->
+          <div id="identidad" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Identidad del Responsable</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">En cumplimiento con la normativa legal vigente, se informa que el sitio web www.peritajesprofesionales.com es propiedad de Peritajes Profesionales, con los siguientes datos:</p>
+            <ul class="list-disc pl-6 text-lg text-gray-700">
+              <li><strong>Denominación:</strong> Peritajes Profesionales S.L.</li>
+              <li><strong>CIF:</strong> B-12345678</li>
+              <li><strong>Domicilio:</strong> Calle Ejemplo, 123, 28001 Madrid, España</li>
+              <li><strong>Correo Electrónico:</strong> info@peritajesprofesionales.com</li>
+              <li><strong>Teléfono:</strong> +34 91 123 45 67</li>
+            </ul>
+            <p class="text-lg text-gray-700 leading-relaxed mt-4">Peritajes Profesionales se dedica a la prestación de servicios de informática forense y peritajes judiciales, operando conforme a las leyes españolas.</p>
+          </div>
+
+          <!-- Condiciones de Uso -->
+          <div id="condiciones" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Condiciones de Uso</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">El acceso y uso del sitio web están sujetos a las siguientes condiciones:</p>
+            <ul class="list-disc pl-6 text-lg text-gray-700">
+              <li>El usuario se compromete a utilizar el sitio de manera lícita, respetando la legislación vigente y los derechos de terceros.</li>
+              <li>Está prohibido realizar acciones que puedan dañar, sobrecargar o comprometer la seguridad del sitio.</li>
+              <li>El contenido del sitio es informativo y no constituye asesoramiento legal o profesional vinculante.</li>
+              <li>Peritajes Profesionales se reserva el derecho a modificar el contenido del sitio sin previo aviso.</li>
+            </ul>
+            <p class="text-lg text-gray-700 leading-relaxed mt-4">El incumplimiento de estas condiciones puede resultar en la denegación de acceso al sitio.</p>
+          </div>
+
+          <!-- Propiedad Intelectual -->
+          <div id="propiedad" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Propiedad Intelectual</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">Todos los contenidos del sitio web, incluyendo textos, imágenes, logotipos, diseños y código fuente, son propiedad de Peritajes Profesionales o de terceros que han autorizado su uso, y están protegidos por las leyes de propiedad intelectual e industrial.</p>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">Queda expresamente prohibida la reproducción, distribución, comunicación pública o transformación de dichos contenidos sin la autorización expresa de Peritajes Profesionales o del titular de los derechos.</p>
+            <p class="text-lg text-gray-700 leading-relaxed">El uso no autorizado puede dar lugar a acciones legales para proteger los derechos de propiedad intelectual.</p>
+          </div>
+
+          <!-- Responsabilidades -->
+          <div id="responsabilidades" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Responsabilidades</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">Peritajes Profesionales no se responsabiliza de:</p>
+            <ul class="list-disc pl-6 text-lg text-gray-700">
+              <li>Errores o interrupciones en el acceso al sitio web debido a problemas técnicos fuera de nuestro control.</li>
+              <li>Daños causados por el uso indebido del sitio o de sus contenidos por parte de los usuarios.</li>
+              <li>Contenidos de sitios web de terceros enlazados desde www.peritajesprofesionales.com, ya que no controlamos ni asumimos responsabilidad sobre ellos.</li>
+            </ul>
+            <p class="text-lg text-gray-700 leading-relaxed mt-4">Nos esforzamos por mantener el sitio actualizado y seguro, pero no garantizamos la ausencia total de errores o vulnerabilidades.</p>
+          </div>
+
+          <!-- Protección de Datos -->
+          <div id="proteccion" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Protección de Datos</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">Peritajes Profesionales cumple con el Reglamento General de Protección de Datos (RGPD) y la Ley Orgánica de Protección de Datos y Garantía de Derechos Digitales (LOPDGDD). Los datos personales recopilados a través del sitio web se tratan con la máxima confidencialidad y conforme a nuestra <a href="/legal/privacidad.html" class="text-blue-600 hover:underline">Política de Privacidad</a>.</p>
+            <p class="text-lg text-gray-700 leading-relaxed">Los usuarios tienen derecho a acceder, rectificar, suprimir, limitar u oponerse al tratamiento de sus datos, así como a solicitar su portabilidad, contactando a info@peritajesprofesionales.com.</p>
+          </div>
+
+          <!-- Uso de Cookies -->
+          <div id="cookies" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Uso de Cookies</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">Este sitio web utiliza cookies para mejorar la experiencia del usuario, analizar el tráfico y ofrecer contenido personalizado. Los detalles sobre el uso de cookies, incluidas las categorías y opciones de configuración, se encuentran en nuestra <a href="/legal/politica-cookies.html" class="text-blue-600 hover:underline">Política de Cookies</a>.</p>
+            <p class="text-lg text-gray-700 leading-relaxed">Al navegar por el sitio, el usuario acepta el uso de cookies esenciales, pudiendo personalizar otras categorías mediante el panel de configuración de cookies.</p>
+          </div>
+
+          <!-- Ley Aplicable -->
+          <div id="ley" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Ley Aplicable y Jurisdicción</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">El presente Aviso Legal se rige por la legislación española. Cualquier controversia derivada del uso del sitio web será sometida a los tribunales de la ciudad de Madrid, salvo que la normativa aplicable disponga lo contrario.</p>
+            <p class="text-lg text-gray-700 leading-relaxed">En caso de conflicto, Peritajes Profesionales buscará resolver la disputa de manera amistosa antes de recurrir a procedimientos judiciales.</p>
+          </div>
+
+          <!-- Contacto Legal -->
+          <div id="contacto" class="content-block bg-white p-8 rounded-lg shadow-md mb-8 fade-in">
+            <h2 class="text-3xl font-bold text-blue-900 mb-6 section-heading">Contacto Legal</h2>
+            <p class="text-lg text-gray-700 leading-relaxed mb-4">Para cualquier consulta relacionada con este Aviso Legal, puede contactarnos a través de los siguientes medios:</p>
+            <div class="contact-block">
+              <p class="text-lg text-gray-700 leading-relaxed"><strong>Correo Electrónico:</strong> legal@peritajesprofesionales.com</p>
+              <p class="text-lg text-gray-700 leading-relaxed"><strong>Teléfono:</strong> +34 91 123 45 67</p>
+              <p class="text-lg text-gray-700 leading-relaxed"><strong>Dirección:</strong> Calle Ejemplo, 123, 28001 Madrid, España</p>
+            </div>
+            <p class="text-lg text-gray-700 leading-relaxed mt-4">Responderemos a su solicitud en el menor tiempo posible, conforme a nuestra política de atención al cliente.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="bg-blue-900 text-white py-16">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4 fade-in">¿Necesitas Asesoramiento Legal?</h2>
+      <p class="text-lg mb-6 fade-in">Contacta con Peritajes Profesionales para resolver tus dudas legales o solicitar nuestros servicios forenses.</p>
+      <a href="/#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale fade-in">Contáctanos</a>
+    </div>
+  </section>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings-modal" class="modal">
+    <div class="modal-content">
+      <button id="close-cookie-modal" class="absolute top-4 right-4 text-white hover:text-gray-300"><i class="fas fa-times text-xl"></i></button>
+      <h2 class="text-3xl font-bold mb-4">Configuración de Cookies</h2>
+      <p class="text-lg mb-6">Personaliza tus preferencias de cookies para nuestro sitio web.</p>
+      <div class="space-y-6">
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" checked disabled class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies Esenciales (Siempre activas)</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Necesarias para el funcionamiento del sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="performance-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Rendimiento</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Recopilan datos anónimos para mejorar el sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="advertising-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Publicidad</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Ofrecen anuncios personalizados.</p>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-center space-x-4">
+        <button id="save-cookie-settings" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookies Banner (Copied from index.html) -->
+  <div id="cookies-banner" class="cookies-banner hidden">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <p>Utilizamos cookies para mejorar tu experiencia. <a href="/legal/politica-cookies.html" class="underline">Más información</a>.</p>
+      <div class="mt-4 md:mt-0 space-x-4">
+        <button id="accept-cookies" class="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Aceptar</button>
+        <button id="customize-cookies" class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500">Personalizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (Copied from index.html) -->
+  <footer class="bg-blue-900 text-white py-10">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Peritajes Profesionales</h3>
+          <p>Soluciones periciales en informática forense y más. Primera consulta gratuita.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Enlaces Rápidos</h3>
+          <ul class="space-y-2">
+            <li><a href="#inicio" class="hover:text-blue-300">Inicio</a></li>
+            <li><a href="#servicios" class="hover:text-blue-300">Servicios</a></li>
+            <li><a href="#equipo" class="hover:text-blue-300">Nuestro Equipo</a></li>
+            <li><a href="#contacto" class="hover:text-blue-300">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Políticas Legales</h3>
+          <ul class="space-y-2">
+            <li><a href="/legal/privacidad.html" class="hover:text-blue-300">Política de Privacidad</a></li>
+            <li><a href="/legal/politica-cookies.html" class="hover:text-blue-300">Política de Cookies</a></li>
+            <li><a href="/legal/aviso-legal.html" class="hover:text-blue-300">Aviso Legal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Síguenos</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-linkedin text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-twitter text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fas fa-envelope text-2xl"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="text-center mt-8">© 2025 Peritajes Profesionales. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scroll-top" class="fixed bottom-6 right-6 bg-blue-700 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 hidden">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // Cookie Helper Functions (Copied from index.html)
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+    function getCookie(name) {
+      const cname = name + "=";
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(cname) == 0) {
+          return c.substring(cname.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    // Cookies Banner Logic
+    const cookiesBanner = document.getElementById('cookies-banner');
+    const acceptCookies = document.getElementById('accept-cookies');
+    const customizeCookies = document.getElementById('customize-cookies');
+    const cookieSettingsModal = document.getElementById('cookie-settings-modal');
+    const closeCookieModal = document.getElementById('close-cookie-modal');
+    const saveCookieSettings = document.getElementById('save-cookie-settings');
+
+    if (!getCookie('cookiesAccepted')) {
+      cookiesBanner.classList.remove('hidden');
+    }
+
+    acceptCookies.addEventListener('click', () => {
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', 'true', 365);
+      setCookie('advertisingCookies', 'true', 365);
+      cookiesBanner.classList.add('hidden');
+    });
+
+    customizeCookies.addEventListener('click', () => {
+      cookiesBanner.classList.add('hidden');
+      cookieSettingsModal.style.display = 'block';
+    });
+
+    saveCookieSettings.addEventListener('click', () => {
+      const performance = document.getElementById('performance-cookies').checked;
+      const advertising = document.getElementById('advertising-cookies').checked;
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', performance, 365);
+      setCookie('advertisingCookies', advertising, 365);
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    closeCookieModal.addEventListener('click', () => {
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Fade-in Animation on Scroll
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeElements.forEach(el => observer.observe(el));
+
+    // Scroll to Top Button
+    const scrollTopBtn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.remove('hidden');
+      } else {
+        scrollTopBtn.classList.add('hidden');
+      }
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
