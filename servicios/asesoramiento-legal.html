@@ -1,0 +1,504 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Asesoramiento Legal Tecnológico por Peritajes Profesionales. Consultoría experta para abogados y empresas en casos de tecnología y derecho. Primera consulta gratuita.">
+  <meta name="keywords" content="asesoramiento legal tecnológico, peritaje informático, informática forense, derecho tecnológico, ciberseguridad, consultoría legal, peritajes profesionales, delitos informáticos">
+  <meta name="author" content="Peritajes Profesionales">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Asesoramiento Legal Tecnológico | Peritajes Profesionales">
+  <meta property="og:description" content="Consultoría especializada en tecnología y derecho para abogados y empresas. Soluciones integrales con enfoque jurídico. Primera consulta gratuita.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.peritajesprofesionales.com/servicios/asesoramiento-legal.html">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80">
+  <link rel="canonical" href="https://www.peritajesprofesionales.com/servicios/asesoramiento-legal.html">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .smooth-scroll { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transition: opacity 1s ease-in; }
+    .fade-in.visible { opacity: 1; }
+    .hover-scale { transition: transform 0.3s ease; }
+    .hover-scale:hover { transform: scale(1.05); }
+    .bg-hero { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+    .modal-content { background: #1e3a8a; color: white; max-width: 600px; margin: 15% auto; padding: 30px; border-radius: 15px; text-align: center; animation: slideIn 0.7s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    @keyframes slideIn { from { transform: translateY(-100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .cookies-banner { position: fixed; bottom: 0; width: 100%; background: #1a202c; color: white; padding: 15px; z-index: 999; }
+    .section-heading { transition: color 0.3s ease; }
+    .section-heading:hover { color: #f8c107; }
+    .feature-card, .case-card { transition: background 0.3s ease, transform 0.3s ease; }
+    .feature-card:hover, .case-card:hover { background: #f3f4f6; transform: translateY(-5px); }
+    .tab { transition: background 0.3s ease, color 0.3s ease; }
+    .tab:hover { background: #f3f4f6; color: #f8c107; }
+    .tab.active { background: #1e3a8a; color: white; }
+    .faq-carousel { overflow: hidden; position: relative; }
+    .faq-track { display: flex; transition: transform 0.5s ease; }
+    .faq-item { flex: 0 0 100%; }
+    .carousel-nav { position: absolute; top: 50%; transform: translateY(-50%); background: #1e3a8a; color: white; padding: 10px; border-radius: 50%; cursor: pointer; }
+    .carousel-nav.left { left: 10px; }
+    .carousel-nav.right { right: 10px; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans smooth-scroll">
+  <!-- Header (Copied from index.html) -->
+  <header class="bg-blue-900 text-white sticky top-0 z-50 shadow-lg">
+    <nav class="container mx-auto flex items-center justify-between py-4 px-6">
+      <div class="flex items-center space-x-3">
+        <img src="../tecnoperitajes.png" alt="Logo de TecnoPeritajes" class="w-12 h-12">
+        <div class="text-2xl font-bold">
+          <a href="/">Peritajes Profesionales</a>
+        </div>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="/#inicio" class="hover:text-blue-300">Inicio</a>
+        <a href="/#servicios" class="hover:text-blue-300">Servicios</a>
+        <a href="/#equipo" class="hover:text-blue-300">Nuestro Equipo</a>
+        <a href="/#testimonios" class="hover:text-blue-300">Testimonios</a>
+        <a href="/#contacto" class="hover:text-blue-300">Contacto</a>
+      </div>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white">
+      <a href="/#inicio" class="block py-2 px-6 hover:bg-blue-700">Inicio</a>
+      <a href="/#servicios" class="block py-2 px-6 hover:bg-blue-700">Servicios</a>
+      <a href="/#equipo" class="block py-2 px-6 hover:bg-blue-700">Nuestro Equipo</a>
+      <a href="/#testimonios" class="block py-2 px-6 hover:bg-blue-700">Testimonios</a>
+      <a href="/#contacto" class="block py-2 px-6 hover:bg-blue-700">Contacto</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="bg-hero bg-cover bg-center text-white py-24">
+    <div class="container mx-auto text-center px-6">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">Asesoramiento Legal Tecnológico</h1>
+      <p class="text-lg md:text-xl mb-6 fade-in">Consultoría especializada para abogados y empresas en la intersección de tecnología y derecho, resolviendo casos con enfoque jurídico integral.</p>
+      <a href="/#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale fade-in">Solicita tu Consulta Gratuita</a>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <!-- Tabbed Content -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <div class="flex flex-wrap justify-center space-x-0 md:space-x-4 mb-8">
+          <button class="tab px-6 py-3 text-lg font-semibold text-blue-900 rounded-t-lg" data-tab="overview">Visión General</button>
+          <button class="tab px-6 py-3 text-lg font-semibold text-blue-900 rounded-t-lg" data-tab="services">Servicios</button>
+          <button class="tab px-6 py-3 text-lg font-semibold text-blue-900 rounded-t-lg" data-tab="benefits">Beneficios</button>
+          <button class="tab px-6 py-3 text-lg font-semibold text-blue-900 rounded-t-lg" data-tab="cases">Casos de Éxito</button>
+        </div>
+        <div id="tab-content" class="bg-gray-50 p-8 rounded-b-lg shadow-lg">
+          <!-- Overview -->
+          <div id="overview" class="tab-pane fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 section-heading">Visión General del Asesoramiento Legal Tecnológico</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <p class="text-lg text-gray-700 leading-relaxed mb-4">El asesoramiento legal tecnológico combina expertise en derecho y tecnología para abordar casos complejos que involucran ciberseguridad, propiedad intelectual, delitos informáticos y más. En Peritajes Profesionales, ofrecemos consultoría estratégica para abogados y empresas, asegurando soluciones jurídicas sólidas respaldadas por análisis técnico.</p>
+                <p class="text-lg text-gray-700 leading-relaxed">Nuestra experiencia permite a nuestros clientes navegar desafíos legales en entornos digitales, desde litigios hasta cumplimiento normativo, con un enfoque integral y personalizado.</p>
+              </div>
+              <div>
+                <img src="https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Asesoramiento legal tecnológico" class="w-full h-64 object-cover rounded-lg shadow-md">
+              </div>
+            </div>
+          </div>
+          <!-- Services -->
+          <div id="services" class="tab-pane hidden fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 section-heading">Nuestros Servicios de Consultoría</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-gavel text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Asesoría en Litigios Tecnológicos</h3>
+                <p class="text-gray-700">Apoyo a abogados en casos de delitos informáticos, ciberataques y disputas digitales.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-shield-alt text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Cumplimiento Normativo</h3>
+                <p class="text-gray-700">Asesoramiento en RGPD, ciberseguridad y regulaciones tecnológicas.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-file-alt text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Gestión de Evidencias Digitales</h3>
+                <p class="text-gray-700">Orientación en la recolección y presentación de pruebas digitales válidas.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-lightbulb text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Estrategias Jurídico-Tecnológicas</h3>
+                <p class="text-gray-700">Desarrollo de estrategias para casos que combinan derecho y tecnología.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Benefits -->
+          <div id="benefits" class="tab-pane hidden fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 section-heading">Beneficios de Nuestra Consultoría</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-balance-scale text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Enfoque Jurídico Sólido</h3>
+                <p class="text-gray-700">Soluciones respaldadas por expertise legal y técnico.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-user-check text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Equipo Multidisciplinario</h3>
+                <p class="text-gray-700">Abogados e ingenieros certificados con experiencia en tecnología.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-shield-alt text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Confidencialidad</h3>
+                <p class="text-gray-700">Protegemos tu información con estrictos protocolos de seguridad.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-lightbulb text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Soluciones Personalizadas</h3>
+                <p class="text-gray-700">Estrategias adaptadas a las necesidades de tu caso.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-clock text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Eficiencia</h3>
+                <p class="text-gray-700">Asesoramiento ágil para cumplir con plazos legales.</p>
+              </div>
+              <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+                <i class="fas fa-handshake text-3xl text-blue-700 mb-4"></i>
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Soporte Integral</h3>
+                <p class="text-gray-700">Acompañamiento durante todo el proceso legal.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Case Studies -->
+          <div id="cases" class="tab-pane hidden fade-in">
+            <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 section-heading">Casos de Éxito</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="case-card bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Litigio por Ciberataque</h3>
+                <p class="text-gray-700">Asesoramos a un bufete en un caso de ransomware, integrando evidencias técnicas en la estrategia legal.</p>
+              </div>
+              <div class="case-card bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Cumplimiento RGPD</h3>
+                <p class="text-gray-700">Ayudamos a una empresa a implementar políticas de protección de datos, evitando sanciones.</p>
+              </div>
+              <div class="case-card bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-lg font-medium text-blue-900 mb-2">Propiedad Intelectual</h3>
+                <p class="text-gray-700">Guiamos a un cliente en un caso de infracción digital, asegurando la validez de pruebas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQs Carousel -->
+    <div id="faq" class="bg-gray-100 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 section-heading fade-in">Preguntas Frecuentes</h2>
+        <div class="faq-carousel relative">
+          <div class="faq-track flex">
+            <div class="faq-item px-4">
+              <h3 class="text-lg font-medium text-blue-900 mb-2">¿Qué es el asesoramiento legal tecnológico?</h3>
+              <p class="text-gray-700">Consultoría que combina derecho y tecnología para casos como ciberseguridad, propiedad intelectual y delitos informáticos.</p>
+            </div>
+            <div class="faq-item px-4">
+              <h3 class="text-lg font-medium text-blue-900 mb-2">¿Quiénes pueden beneficiarse?</h3>
+              <p class="text-gray-700">Abogados, empresas y organizaciones que enfrentan casos con componentes tecnológicos.</p>
+            </div>
+            <div class="faq-item px-4">
+              <h3 class="text-lg font-medium text-blue-900 mb-2">¿Qué incluye la consultoría?</h3>
+              <p class="text-gray-700">Asesoría en litigios, cumplimiento normativo, gestión de evidencias y estrategias jurídicas.</p>
+            </div>
+            <div class="faq-item px-4">
+              <h3 class="text-lg font-medium text-blue-900 mb-2">¿Ofrecen consultas gratuitas?</h3>
+              <p class="text-gray-700">Sí, ofrecemos una primera consulta gratuita para evaluar tu caso.</p>
+            </div>
+            <div class="faq-item px-4">
+              <h3 class="text-lg font-medium text-blue-900 mb-2">¿Garantizan confidencialidad?</h3>
+              <p class="text-gray-700">Sí, protegemos tu información con estrictos protocolos de seguridad.</p>
+            </div>
+            <div class="faq-item px-4">
+              <h3 class="text-lg font-medium text-blue-900 mb-2">¿Cuánto tiempo tarda la consultoría?</h3>
+              <p class="text-gray-700">Depende del caso, pero priorizamos eficiencia para cumplir con plazos legales.</p>
+            </div>
+          </div>
+          <button class="carousel-nav left"><i class="fas fa-chevron-left"></i></button>
+          <button class="carousel-nav right"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="bg-blue-900 text-white py-16">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 fade-in">Soluciones Jurídico-Tecnológicas a tu Medida</h2>
+        <p class="text-lg mb-6 fade-in">Confía en Peritajes Profesionales para resolver casos que combinan tecnología y derecho. Contáctanos para una consulta gratuita.</p>
+        <a href="/#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale fade-in">Solicitar Consulta</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings-modal" class="modal">
+    <div class="modal-content">
+      <button id="close-cookie-modal" class="absolute top-4 right-4 text-white hover:text-gray-300"><i class="fas fa-times text-xl"></i></button>
+      <h2 class="text-3xl font-bold mb-4">Configuración de Cookies</h2>
+      <p class="text-lg mb-6">Personaliza tus preferencias de cookies para nuestro sitio web.</p>
+      <div class="space-y-6">
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" checked disabled class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies Esenciales (Siempre activas)</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Necesarias para el funcionamiento del sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="performance-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Rendimiento</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Recopilan datos anónimos para mejorar el sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="advertising-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Publicidad</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Ofrecen anuncios personalizados.</p>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-center space-x-4">
+        <button id="save-cookie-settings" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookies Banner (Copied from index.html) -->
+  <div id="cookies-banner" class="cookies-banner hidden">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <p>Utilizamos cookies para mejorar tu experiencia. <a href="/legal/politica-cookies.html" class="underline">Más información</a>.</p>
+      <div class="mt-4 md:mt-0 space-x-4">
+        <button id="accept-cookies" class="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Aceptar</button>
+        <button id="customize-cookies" class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500">Personalizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (Copied from index.html) -->
+  <footer class="bg-blue-900 text-white py-10">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Peritajes Profesionales</h3>
+          <p>Soluciones periciales en informática forense y más. Primera consulta gratuita.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Enlaces Rápidos</h3>
+          <ul class="space-y-2">
+            <li><a href="#inicio" class="hover:text-blue-300">Inicio</a></li>
+            <li><a href="#servicios" class="hover:text-blue-300">Servicios</a></li>
+            <li><a href="#equipo" class="hover:text-blue-300">Nuestro Equipo</a></li>
+            <li><a href="#contacto" class="hover:text-blue-300">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Políticas Legales</h3>
+          <ul class="space-y-2">
+            <li><a href="/legal/privacidad.html" class="hover:text-blue-300">Política de Privacidad</a></li>
+            <li><a href="/legal/politica-cookies.html" class="hover:text-blue-300">Política de Cookies</a></li>
+            <li><a href="/legal/aviso-legal.html" class="hover:text-blue-300">Aviso Legal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Síguenos</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-linkedin text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-twitter text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fas fa-envelope text-2xl"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="text-center mt-8">© 2025 Peritajes Profesionales. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scroll-top" class="fixed bottom-6 right-6 bg-blue-700 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 hidden">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // Cookie Helper Functions (Copied from index.html)
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+    function getCookie(name) {
+      const cname = name + "=";
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(cname) == 0) {
+          return c.substring(cname.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    // Cookies Banner Logic
+    const cookiesBanner = document.getElementById('cookies-banner');
+    const acceptCookies = document.getElementById('accept-cookies');
+    const customizeCookies = document.getElementById('customize-cookies');
+    const cookieSettingsModal = document.getElementById('cookie-settings-modal');
+    const closeCookieModal = document.getElementById('close-cookie-modal');
+    const saveCookieSettings = document.getElementById('save-cookie-settings');
+
+    if (!getCookie('cookiesAccepted')) {
+      cookiesBanner.classList.remove('hidden');
+    }
+
+    acceptCookies.addEventListener('click', () => {
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', 'true', 365);
+      setCookie('advertisingCookies', 'true', 365);
+      cookiesBanner.classList.add('hidden');
+    });
+
+    customizeCookies.addEventListener('click', () => {
+      cookiesBanner.classList.add('hidden');
+      cookieSettingsModal.style.display = 'block';
+    });
+
+    saveCookieSettings.addEventListener('click', () => {
+      const performance = document.getElementById('performance-cookies').checked;
+      const advertising = document.getElementById('advertising-cookies').checked;
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', performance, 365);
+      setCookie('advertisingCookies', advertising, 365);
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    closeCookieModal.addEventListener('click', () => {
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Fade-in Animation on Scroll
+    const fadeElements = document.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeElements.forEach(el => observer.observe(el));
+
+    // Scroll to Top Button
+    const scrollTopBtn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.remove('hidden');
+      } else {
+        scrollTopBtn.classList.add('hidden');
+      }
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Tabbed Content Logic
+    const tabs = document.querySelectorAll('.tab');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        tabs.forEach(t => t.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.add('hidden'));
+        tab.classList.add('active');
+        document.getElementById(target).classList.remove('hidden');
+      });
+    });
+    tabs[0].classList.add('active');
+    document.getElementById('overview').classList.remove('hidden');
+
+    // FAQ Carousel Logic
+    const faqTrack = document.querySelector('.faq-track');
+    const faqItems = document.querySelectorAll('.faq-item');
+    const leftNav = document.querySelector('.carousel-nav.left');
+    const rightNav = document.querySelector('.carousel-nav.right');
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      faqTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    leftNav.addEventListener('click', () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateCarousel();
+      }
+    });
+
+    rightNav.addEventListener('click', () => {
+      if (currentIndex < faqItems.length - 1) {
+        currentIndex++;
+        updateCarousel();
+      }
+    });
+  </script>
+</body>
+</html>

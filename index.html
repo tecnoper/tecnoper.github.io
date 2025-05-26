@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TecnoPeritajes</title>
+  <meta name="description" content="Expertos en peritajes judiciales e informática forense. Análisis forense, recuperación de datos, certificación de evidencias y más. Primera consulta gratuita.">
+  <meta name="keywords" content="peritaje informático, informática forense, peritaje judicial, pruebas digitales, análisis forense, recuperación de datos, peritaje digital, evidencias digitales, ciberseguridad, peritos profesionales, servicios periciales, delitos informáticos, asesoramiento legal tecnológico, peritaje forense, pruebas legales">
+  <meta name="author" content="TecnoPeritajes">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="TecnoPeritajes">
+  <meta property="og:description" content="Soluciones periciales en informática forense y más. Primera consulta gratuita. Confía en nuestros expertos certificados.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80">
+  <link rel="canonical" href="">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .smooth-scroll { scroll-behavior: smooth; }
+    .fade-in { opacity: 0; transition: opacity 1s ease-in; }
+    .fade-in.visible { opacity: 1; }
+    .hover-scale { transition: transform 0.3s ease; }
+    .hover-scale:hover { transform: scale(1.05); }
+    .bg-hero { background-image: url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); }
+    /* Carrusel de logos */
+    .logo-carousel { overflow: hidden; white-space: nowrap; }
+    .logo-track { display: inline-flex; animation: scroll 20s linear infinite; }
+    .logo-track img { margin: 0 20px; }
+    @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    /* Cookies Banner */
+    .cookies-banner { position: fixed; bottom: 0; width: 100%; background: #1a202c; color: white; padding: 15px; z-index: 999; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans smooth-scroll">
+  <!-- Header -->
+  <header class="bg-blue-900 text-white sticky top-0 z-50 shadow-lg">
+    <nav class="container mx-auto flex items-center justify-between py-4 px-6">
+      <div class="flex items-center space-x-3">
+        <img src="tecnoperitajes.png" alt="Logo de TecnoPeritajes" class="w-12 h-12">
+        <div class="text-2xl font-bold">
+          <a href="/">TecnoPeritajes</a>
+        </div>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#inicio" class="hover:text-blue-300">Inicio</a>
+        <a href="#servicios" class="hover:text-blue-300">Servicios</a>
+        <a href="#testimonios" class="hover:text-blue-300">Testimonios</a>
+        <a href="#contacto" class="hover:text-blue-300">Contacto</a>
+      </div>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white">
+      <a href="#inicio" class="block py-2 px-6 hover:bg-blue-700">Inicio</a>
+      <a href="#servicios" class="block py-2 px-6 hover:bg-blue-700">Servicios</a>
+      <a href="#testimonios" class="block py-2 px-6 hover:bg-blue-700">Testimonios</a>
+      <a href="#contacto" class="block py-2 px-6 hover:bg-blue-700">Contacto</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="bg-hero bg-cover bg-center text-white py-24">
+    <div class="container mx-auto text-center px-6">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 fade-in">Líderes en Peritajes Judiciales e Informática Forense</h1>
+      <p class="text-lg md:text-xl mb-6 fade-in">Confía en nuestro equipo de expertos para resolver tus casos legales con precisión y profesionalidad. <strong>Primera consulta gratuita.</strong></p>
+      <a href="#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale">Solicita tu Consulta Gratuita</a>
+    </div>
+  </section>
+
+  <!-- Servicios Section -->
+  <section id="servicios" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">Nuestros Servicios Periciales</h2>
+      <p class="text-lg text-center mb-8 fade-in">Especializados en informática forense, ofrecemos soluciones integrales para casos judiciales, garantizando precisión y validez legal.</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <i class="fas fa-search text-4xl text-blue-700 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Análisis Forense Informático</h3>
+          <p>Investigamos dispositivos electrónicos para identificar y preservar evidencias digitales, asegurando su admisibilidad en juicios.</p>
+          <a href="servicios/analisis-forense.html" class="text-blue-600 hover:underline mt-4 inline-block">Más Información</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <i class="fas fa-database text-4xl text-blue-700 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Recuperación de Datos</h3>
+          <p>Recuperamos información perdida o eliminada de cualquier dispositivo, utilizando técnicas avanzadas para resultados fiables.</p>
+          <a href="servicios/recuperacion-datos.html" class="text-blue-600 hover:underline mt-4 inline-block">Más Información</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <i class="fas fa-file-alt text-4xl text-blue-700 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Informes Periciales</h3>
+          <p>Elaboramos informes técnicos detallados que cumplen con los estándares legales para respaldar tus casos judiciales.</p>
+          <a href="servicios/informes-periciales.html" class="text-blue-600 hover:underline mt-4 inline-block">Más Información</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <i class="fas fa-certificate text-4xl text-blue-700 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Certificación de Evidencias</h3>
+          <p>Validamos la autenticidad de pruebas digitales, asegurando su integridad para procesos legales.</p>
+          <a href="servicios/certificacion-evidencias.html" class="text-blue-600 hover:underline mt-4 inline-block">Más Información</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <i class="fas fa-shield-alt text-4xl text-blue-700 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Peritaje en Delitos Informáticos</h3>
+          <p>Investigamos casos de ciberataques, fraude y delitos tecnológicos, proporcionando pruebas clave.</p>
+          <a href="servicios/delitos-informaticos.html" class="text-blue-600 hover:underline mt-4 inline-block">Más Información</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <i class="fas fa-balance-scale text-4xl text-blue-700 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">Asesoramiento Legal Tecnológico</h3>
+          <p>Consultoría para abogados y empresas en casos que involucren tecnología y derecho.</p>
+          <a href="servicios/asesoramiento-legal.html" class="text-blue-600 hover:underline mt-4 inline-block">Más Información</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por Qué Elegirnos Section -->
+  <section id="por-que-elegirnos" class="py-20 bg-gray-100">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">Por Qué Confiar en Nosotros</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <h3 class="text-xl font-semibold mb-2">Experiencia Comprobada</h3>
+          <p>Más de 15 años resolviendo casos judiciales con peritajes de alta calidad.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <h3 class="text-xl font-semibold mb-2">Equipo Certificado</h3>
+          <p>Peritos, ingenieros y abogados con certificaciones internacionales.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <h3 class="text-xl font-semibold mb-2">Confidencialidad Total</h3>
+          <p>Protegemos tu información con estrictos protocolos de seguridad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonios Section -->
+  <section id="testimonios" class="py-20 bg-gray-100">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">Lo Que Dicen Nuestros Clientes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg fade-in">
+          <p class="text-lg italic mb-4">"Su informe pericial fue decisivo para nuestro caso. Profesionales de primer nivel."</p>
+          <p class="font-semibold">Antonio Ruiz, Abogado</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg fade-in">
+          <p class="text-lg italic mb-4">"Recuperaron datos que creíamos perdidos. Servicio excepcional y confiable."</p>
+          <p class="font-semibold">Laura Sánchez, Cliente</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg fade-in">
+          <p class="text-lg italic mb-4">"Su asesoría tecnológica fue clave para nuestro litigio. Altamente recomendados."</p>
+          <p class="font-semibold">Pedro Gómez, Cliente</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg fade-in">
+          <p class="text-lg italic mb-4">"Profesionalismo y atención al detalle inigualables. Excelente equipo."</p>
+          <p class="font-semibold">Sofía Martínez, Abogada</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Casos de Éxito Section -->
+  <section id="casos" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">Casos de Éxito</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <h3 class="text-xl font-semibold mb-2">Fraude Informático Corporativo</h3>
+          <p>Identificamos pruebas digitales que resolvieron un caso de malversación.</p>
+          <a href="casos/fraude-informatico.html" class="text-blue-600 hover:underline mt-4 inline-block">Leer Más</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <h3 class="text-xl font-semibold mb-2">Recuperación de Datos Empresariales</h3>
+          <p>Recuperamos datos críticos tras un ciberataque, salvando operaciones.</p>
+          <a href="casos/recuperacion-datos.html" class="text-blue-600 hover:underline mt-4 inline-block">Leer Más</a>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <h3 class="text-xl font-semibold mb-2">Litigio por Propiedad Intelectual</h3>
+          <p>Certificamos evidencias que probaron una infracción, ganando el caso.</p>
+          <a href="casos/propiedad-intelectual.html" class="text-blue-600 hover:underline mt-4 inline-block">Leer Más</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blog" class="py-20 bg-gray-100">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">Artículos de Interés</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <img src="https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Peritaje informático en acción" class="w-full h-40 object-cover rounded-t-lg mb-4">
+          <h3 class="text-xl font-semibold mb-2">¿Qué es el Peritaje Informático?</h3>
+          <p>Descubre cómo el peritaje informático resuelve casos judiciales con pruebas digitales.</p>
+          <a href="blog/peritaje-informatico.html" class="text-blue-600 hover:underline mt-4 inline-block">Leer Más</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Protección de evidencias digitales" class="w-full h-40 object-cover rounded-t-lg mb-4">
+          <h3 class="text-xl font-semibold mb-2">Proteger tus Evidencias Digitales</h3>
+          <p>Consejos para preservar la integridad de pruebas en procesos legales.</p>
+          <a href="blog/evidencias-digitales.html" class="text-blue-600 hover:underline mt-4 inline-block">Leer Más</a>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover-scale fade-in">
+          <img src="https://images.unsplash.com/photo-1650933552942-4b6dd4e690ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Investigación de delitos informáticos" class="w-full h-40 object-cover rounded-t-lg mb-4">
+          <h3 class="text-xl font-semibold mb-2">Delitos Informáticos y Peritaje</h3>
+          <p>El rol del perito en la investigación de ciberataques y fraudes.</p>
+          <a href="blog/delitos-informaticos.html" class="text-blue-600 hover:underline mt-4 inline-block">Leer Más</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preguntas Frecuentes Section -->
+  <section id="faq" class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">Preguntas Frecuentes</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg fade-in">
+          <h3 class="text-xl font-semibold mb-2">¿Qué es un peritaje informático?</h3>
+          <p>Un análisis técnico de dispositivos para obtener pruebas legales, realizado por peritos certificados.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg fade-in">
+          <h3 class="text-xl font-semibold mb-2">¿Ofrecen consultas gratuitas?</h3>
+          <p>Sí, nuestra primera consulta es gratuita para evaluar tu caso y proponer soluciones.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg fade-in">
+          <h3 class="text-xl font-semibold mb-2">¿Cuánto tiempo tarda un peritaje?</h3>
+          <p>Depende de la complejidad, pero priorizamos eficiencia sin comprometer calidad.</p>
+        </div>
+        <div class="bg-gray-100 p-6 rounded-lg shadow-lg fade-in">
+          <h3 class="text-xl font-semibold mb-2">¿Garantizan confidencialidad?</h3>
+          <p>Sí, seguimos estrictos protocolos para proteger tu información.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto Section -->
+  <section id="contacto" class="py-20 bg-blue-700 text-white">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 fade-in">Contáctanos para tu Consulta Gratuita</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Formulario -->
+        <div>
+          <form id="contact-form" class="max-w-lg mx-auto" novalidate>
+            <div class="mb-4">
+              <label for="nombre" class="block text-lg mb-2">Nombre Completo</label>
+              <input type="text" id="nombre" name="nombre" class="w-full p-3 rounded-lg text-gray-800" required>
+            </div>
+            <div class="mb-4">
+              <label for="email" class="block text-lg mb-2">Correo Electrónico</label>
+              <input type="email" id="email" name="email" class="w-full p-3 rounded-lg text-gray-800" required>
+            </div>
+            <div class="mb-4">
+              <label for="telefono" class="block text-lg mb-2">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" class="w-full p-3 rounded-lg text-gray-800" value="+34" required>
+            </div>
+            <button type="submit" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale">Enviar Consulta</button>
+            <p id="form-message" class="mt-4 text-center font-semibold"></p>
+          </form>
+        </div>
+        <!-- Información de Contacto -->
+        <div class="text-center md:text-left">
+          <h3 class="text-2xl font-semibold mb-6 fade-in">Información de Contacto</h3>
+          <p class="mb-4 fade-in"><i class="fas fa-envelope mr-2"></i> <a href="mailto:info@tecnoperitajes.com" class="hover:underline">info@tecnoperitajes.com</a></p>
+          <p class="mb-4 fade-in"><i class="fas fa-phone mr-2"></i> <a href="tel:+34684761918" class="hover:underline">+34 684761918</a></p>
+          <p class="mb-4 fade-in"><i class="fas fa-map-marker-alt mr-2"></i> Av. Joaquim de Barnola i Bassols, 2, nave 11, 08760 Martorell, Barcelona</p>
+          <p class="mb-4 fade-in"><i class="fas fa-clock mr-2"></i> Lunes a Viernes: 9:00 - 18:00</p>
+          <div class="mt-6 fade-in">
+            <iframe src="="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5987.855855855856!2d1.930000000!3d41.474000000!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a495f75b6f9c8f%3A0x123456789abcdef0!2sMartorell%2C%20Barcelona%2C%20Espa%C3%B1a!5e0!3m2!1sen!2ses!4v0000000000000" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" alt="Mapa de ubicación en Martorell"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cookies Banner -->
+  <div id="cookies-banner" class="cookies-banner hidden">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <p>Utilizamos cookies para mejorar tu experiencia. <a href="/legal/politica-cookies.html" class="underline">Más información</a>.</p>
+      <div class="mt-4 md:mt-0 space-x-4">
+        <button id="accept-cookies" class="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Aceptar</button>
+        <button id="customize-cookies" class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500">Personalizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 text-white py-10">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Asociación HackBCN</h3>
+          <p>Todos los derechos reservados.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Enlaces Rápidos</h3>
+          <ul class="space-y-2">
+            <li><a href="#inicio" class="hover:text-blue-300">Inicio</a></li>
+            <li><a href="#servicios" class="hover:text-blue-300">Servicios</a></li>
+            <li><a href="#contacto" class="hover:text-blue-300">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Políticas Legales</h3>
+          <ul class="space-y-2">
+            <li><a href="legal/privacidad.html" class="hover:text-blue-300">Política de Privacidad</a></li>
+            <li><a href="legal/politica-cookies.html" class="hover:text-blue-300">Política de Cookies</a></li>
+            <li><a href="legal/aviso-legal.html" class="hover:text-blue-300">Aviso Legal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Síguenos</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-linkedin text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-twitter text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fas fa-envelope text-2xl"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="text-center mt-8">© 2025 Asociación HackBCN. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scroll-top" class="fixed bottom-6 right-6 bg-blue-700 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 hidden">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Cookie Helper Functions
+      function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = name + "=" + value + ";" + expires + ";path=/";
+      }
+      
+      function getCookie(name) {
+        const cname = name + "=";
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+          }
+          if (c.indexOf(cname) == 0) {
+            return c.substring(cname.length, c.length);
+          }
+        }
+        return "";
+      }
+
+      // Cookies Banner Logic
+      const cookiesBanner = document.getElementById('cookies-banner');
+      const acceptCookies = document.getElementById('accept-cookies');
+      const customizeCookies = document.getElementById('customize-cookies');
+      if (!getCookie('cookiesAccepted')) {
+        cookiesBanner.classList.remove('hidden');
+      }
+      acceptCookies.addEventListener('click', () => {
+        setCookie('cookiesAccepted', 'true', 365);
+        cookiesBanner.classList.add('hidden');
+      });
+      customizeCookies.addEventListener('click', () => {
+        alert('Personaliza tus preferencias de cookies (funcionalidad a implementar).');
+      });
+
+      // Mobile Menu Toggle
+      const menuToggle = document.getElementById('menu-toggle');
+      const mobileMenu = document.getElementById('mobile-menu');
+      menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // Fade-in Animation on Scroll
+      const fadeElements = document.querySelectorAll('.fade-in');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      fadeElements.forEach(el => observer.observe(el));
+
+      // Scroll to Top Button
+      const scrollTopBtn = document.getElementById('scroll-top');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          scrollTopBtn.classList.remove('hidden');
+        } else {
+          scrollTopBtn.classList.add('hidden');
+        }
+      });
+      scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      // Form Submission
+      const contactForm = document.getElementById('contact-form');
+      const formMessage = document.getElementById('form-message');
+
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        formMessage.textContent = '';
+        
+        if (!contactForm.checkValidity()) {
+          formMessage.textContent = 'Por favor, completa todos los campos requeridos correctamente.';
+          formMessage.style.color = 'red';
+          return;
+        }
+
+        const formData = {
+          nombre: contactForm.nombre.value,
+          email: contactForm.email.value,
+          telefono: contactForm.telefono.value
+        };
+
+        try {
+          const apiKey = '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';
+          const response = await fetch('https://api.brevo.com/v3/contacts', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'api-key': apiKey
+            },
+            body: JSON.stringify({
+              email: formData.email,
+              attributes: {
+                FIRSTNAME: formData.nombre,
+                SMS: formData.telefono
+              },
+              listIds: [2],
+              updateEnabled: true
+            })
+          });
+
+          if (response.ok) {
+            formMessage.textContent = 'Gracias por tu consulta. Nos pondremos en contacto contigo pronto.';
+            formMessage.style.color = 'green';
+            contactForm.reset();
+          } else {
+            const errorData = await response.json();
+            formMessage.textContent = 'Error al enviar el formulario: ' + (errorData.message || 'Inténtalo de nuevo más tarde.');
+            formMessage.style.color = 'red';
+          }
+        } catch (error) {
+          formMessage.textContent = 'Error de red al enviar el formulario. Por favor, inténtalo de nuevo.';
+          formMessage.style.color = 'red';
+        }
+      });
+    });
+  </script>

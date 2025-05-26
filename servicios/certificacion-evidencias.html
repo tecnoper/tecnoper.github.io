@@ -1,0 +1,490 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Certificación de Evidencias por Peritajes Profesionales. Validamos la autenticidad de pruebas digitales para procesos legales. Primera consulta gratuita.">
+  <meta name="keywords" content="certificación de evidencias, peritaje informático, informática forense, evidencias digitales, peritajes judiciales, ciberseguridad, pruebas legales, peritajes profesionales">
+  <meta name="author" content="Peritajes Profesionales">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Certificación de Evidencias | Peritajes Profesionales">
+  <meta property="og:description" content="Expertos en validar la autenticidad de pruebas digitales, asegurando su integridad para casos judiciales. Primera consulta gratuita.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.peritajesprofesionales.com/servicios/certificacion-evidencias.html">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80">
+  <link rel="canonical" href="https://www.peritajesprofesionales.com/servicios/certificacion-evidencias.html">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .smooth-scroll { scroll-behavior: smooth; }
+    .slide-in { opacity: 0; transform: translateX(-50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .slide-in.visible { opacity: 1; transform: translateX(0); }
+    .hover-scale { transition: transform 0.3s ease; }
+    .hover-scale:hover { transform: scale(1.05); }
+    .bg-hero { background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+    .modal-content { background: #1e3a8a; color: white; max-width: 600px; margin: 15% auto; padding: 30px; border-radius: 15px; text-align: center; animation: slideIn 0.7s ease; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    @keyframes slideIn { from { transform: translateY(-100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .cookies-banner { position: fixed; bottom: 0; width: 100%; background: #1a202c; color: white; padding: 15px; z-index: 999; }
+    .section-heading { transition: color 0.3s ease; }
+    .section-heading:hover { color: #f8c107; }
+    .content-block, .case-card, .faq-step { transition: background 0.3s ease, transform 0.3s ease; }
+    .content-block:hover, .case-card:hover, .faq-step:hover { background: #f3f4f6; transform: translateY(-5px); }
+    .faq-step { position: relative; padding-left: 60px; }
+    .faq-step .number { position: absolute; left: 0; top: 0; width: 40px; height: 40px; background: #1e3a8a; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans smooth-scroll">
+  <!-- Header (Copied from index.html) -->
+  <header class="bg-blue-900 text-white sticky top-0 z-50 shadow-lg">
+    <nav class="container mx-auto flex items-center justify-between py-4 px-6">
+      <div class="flex items-center space-x-3">
+        <img src="../tecnoperitajes.png" alt="Logo de TecnoPeritajes" class="w-12 h-12">
+        <div class="text-2xl font-bold">
+          <a href="/">Peritajes Profesionales</a>
+        </div>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="/#inicio" class="hover:text-blue-300">Inicio</a>
+        <a href="/#servicios" class="hover:text-blue-300">Servicios</a>
+        <a href="/#equipo" class="hover:text-blue-300">Nuestro Equipo</a>
+        <a href="/#testimonios" class="hover:text-blue-300">Testimonios</a>
+        <a href="/#contacto" class="hover:text-blue-300">Contacto</a>
+      </div>
+      <div class="md:hidden">
+        <button id="menu-toggle" class="focus:outline-none">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-blue-800 text-white">
+      <a href="/#inicio" class="block py-2 px-6 hover:bg-blue-700">Inicio</a>
+      <a href="/#servicios" class="block py-2 px-6 hover:bg-blue-700">Servicios</a>
+      <a href="/#equipo" class="block py-2 px-6 hover:bg-blue-700">Nuestro Equipo</a>
+      <a href="/#testimonios" class="block py-2 px-6 hover:bg-blue-700">Testimonios</a>
+      <a href="/#contacto" class="block py-2 px-6 hover:bg-blue-700">Contacto</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="inicio" class="bg-hero bg-cover bg-center text-white py-24">
+    <div class="container mx-auto text-center px-6">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 slide-in">Certificación de Evidencias Digitales</h1>
+      <p class="text-lg md:text-xl mb-6 slide-in">Validamos la autenticidad e integridad de pruebas digitales para garantizar su validez en procesos judiciales.</p>
+      <a href="/#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale slide-in">Solicita tu Consulta Gratuita</a>
+    </div>
+  </section>
+
+  <!-- Content Section -->
+  <section class="content-section">
+    <!-- Overview -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Certificación de Evidencias para Casos Legales</h2>
+        <div class="content-block bg-gray-50 p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-certificate mr-2 text-blue-700"></i>
+                ¿Qué es la Certificación de Evidencias?
+              </h3>
+              <p class="text-lg text-gray-700 leading-relaxed mb-4">La certificación de evidencias digitales es el proceso de validar la autenticidad e integridad de pruebas electrónicas, como correos, documentos, logs o datos de dispositivos, para asegurar su admisibilidad en tribunales. En Peritajes Profesionales, garantizamos que las evidencias cumplan con los estándares legales mediante técnicas forenses avanzadas.</p>
+              <p class="text-lg text-gray-700 leading-relaxed">Nuestros peritos certificados trabajan con precisión para respaldar casos de fraudes, ciberataques, propiedad intelectual y más, ofreciendo soluciones confiables y confidenciales.</p>
+            </div>
+            <div>
+              <img src="https://images.unsplash.com/photo-1516321310764-9592001a1561?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Certificación de evidencias digitales" class="w-full h-64 object-cover rounded-lg shadow-md">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certification Process -->
+    <div class="bg-gray-100 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Nuestro Proceso de Certificación</h2>
+        <div class="content-block bg-white p-8 rounded-lg shadow-md slide-in">
+          <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+            <i class="fas fa-cogs mr-2 text-blue-700"></i>
+            Pasos Clave
+          </h3>
+          <ol class="list-decimal pl-6 text-lg text-gray-700">
+            <li><strong>Recolección Segura:</strong> Obtenemos datos digitales utilizando copias forenses bit a bit para preservar la integridad.</li>
+            <li><strong>Análisis de Autenticidad:</strong> Verificamos la autenticidad de las pruebas mediante hash (SHA-256, MD5) y análisis de metadatos.</li>
+            <li><strong>Validación de Integridad:</strong> Comprobamos que los datos no han sido alterados desde su recolección.</li>
+            <li><strong>Documentación Forense:</strong> Elaboramos informes periciales detallados que cumplen con estándares judiciales.</li>
+            <li><strong>Certificación Legal:</strong> Emitimos certificados que respaldan la validez de las pruebas para tribunales.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Benefits -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Beneficios de Nuestra Certificación</h2>
+        <div class="content-block bg-gray-50 p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-balance-scale text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Validez Judicial</h4>
+              <p class="text-gray-700">Pruebas certificadas que cumplen con requisitos legales.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-user-check text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Expertos Certificados</h4>
+              <p class="text-gray-700">Peritos con certificaciones CFCE y CCE.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-shield-alt text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Confidencialidad</h4>
+              <p class="text-gray-700">Protección de datos con protocolos de seguridad avanzados.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-certificate text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Precisión Forense</h4>
+              <p class="text-gray-700">Uso de herramientas avanzadas para validación exacta.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-clock text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Eficiencia</h4>
+              <p class="text-gray-700">Certificación rápida para cumplir con plazos judiciales.</p>
+            </div>
+            <div class="feature-card bg-white p-6 rounded-lg shadow-md">
+              <i class="fas fa-handshake text-3xl text-blue-700 mb-4"></i>
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Soporte Legal</h4>
+              <p class="text-gray-700">Acompañamiento durante el proceso judicial.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Methodologies and Tools -->
+    <div class="bg-gray-100 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Metodologías y Herramientas</h2>
+        <div class="content-block bg-white p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-book mr-2 text-blue-700"></i>
+                Metodologías Forenses
+              </h3>
+              <p class="text-lg text-gray-700 leading-relaxed mb-4">Seguimos estándares como ISO/IEC 27037 y NIST SP 800-86 para garantizar la integridad y autenticidad de las evidencias. Nuestros métodos incluyen verificación de hash, análisis de metadatos y auditorías de cadena de custodia, asegurando que las pruebas sean irrefutables en tribunales.</p>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-blue-900 mb-4 flex items-center">
+                <i class="fas fa-tools mr-2 text-blue-700"></i>
+                Herramientas Especializadas
+              </h3>
+              <ul class="list-disc pl-6 text-lg text-gray-700">
+                <li><strong>EnCase Forensic:</strong> Validación de autenticidad de datos.</li>
+                <li><strong>X-Ways Forensics:</strong> Análisis de metadatos y sistemas de archivos.</li>
+                <li><strong>HashCalc:</strong> Generación de hash SHA-256 y MD5.</li>
+                <li><strong>Autopsy:</strong> Examen de integridad de archivos.</li>
+                <li><strong>Magnet AXIOM:</strong> Documentación forense integral.</li>
+              </ul>
+            </div>
+          </div>
+          <p class="text-lg text-gray-700 leading-relaxed mt-4">Estas herramientas y metodologías nos permiten certificar evidencias con la máxima precisión, desde correos electrónicos hasta datos de dispositivos móviles.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Case Studies -->
+    <div class="bg-white py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Casos de Éxito</h2>
+        <div class="content-block bg-gray-50 p-8 rounded-lg shadow-md slide-in">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="case-card bg-white p-6 rounded-lg shadow-md">
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Fraude Corporativo</h4>
+              <p class="text-gray-700">Certificamos correos electrónicos manipulados, probando su autenticidad en un caso de malversación.</p>
+            </div>
+            <div class="case-card bg-white p-6 rounded-lg shadow-md">
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Propiedad Intelectual</h4>
+              <p class="text-gray-700">Validamos documentos digitales robados, apoyando una demanda exitosa por infracción.</p>
+            </div>
+            <div class="case-card bg-white p-6 rounded-lg shadow-md">
+              <h4 class="text-lg font-medium text-blue-900 mb-2">Ciberataque</h4>
+              <p class="text-gray-700">Certificamos logs de red, proporcionando pruebas clave en un caso de ransomware.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQs Stepped Section -->
+    <div class="bg-gray-100 py-16">
+      <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-blue-900 mb-8 text-center section-heading slide-in">Preguntas Frecuentes</h2>
+        <div class="space-y-6">
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">1</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Qué es la certificación de evidencias?</h3>
+            <p class="text-gray-700">Validar la autenticidad e integridad de pruebas digitales para su uso en tribunales.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">2</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Qué tipos de evidencias certifican?</h3>
+            <p class="text-gray-700">Correos, documentos, logs, datos de móviles, discos duros y más.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">3</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Cuánto tiempo tarda la certificación?</h3>
+            <p class="text-gray-700">De 1-2 semanas, dependiendo de la complejidad de las pruebas.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">4</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Las evidencias son válidas en tribunales?</h3>
+            <p class="text-gray-700">Sí, cumplimos con estándares legales para garantizar su admisibilidad.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">5</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Ofrecen consultas gratuitas?</h3>
+            <p class="text-gray-700">Sí, ofrecemos una primera consulta gratuita para evaluar tu caso.</p>
+          </div>
+          <div class="faq-step bg-white p-6 rounded-lg shadow-md slide-in">
+            <span class="number">6</span>
+            <h3 class="text-lg font-medium text-blue-900 mb-2">¿Cómo garantizan la confidencialidad?</h3>
+            <p class="text-gray-700">Con medidas de seguridad y acuerdos de confidencialidad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="bg-blue-900 text-white py-16">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 slide-in">Certifica tus Evidencias con Expertos</h2>
+        <p class="text-lg mb-6 slide-in">Confía en Peritajes Profesionales para validar pruebas digitales con validez judicial. Contáctanos para una consulta gratuita.</p>
+        <a href="/#contacto" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale slide-in">Solicitar Consulta</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cookie Settings Modal -->
+  <div id="cookie-settings-modal" class="modal">
+    <div class="modal-content">
+      <button id="close-cookie-modal" class="absolute top-4 right-4 text-white hover:text-gray-300"><i class="fas fa-times text-xl"></i></button>
+      <h2 class="text-3xl font-bold mb-4">Configuración de Cookies</h2>
+      <p class="text-lg mb-6">Personaliza tus preferencias de cookies para nuestro sitio web.</p>
+      <div class="space-y-6">
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" checked disabled class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies Esenciales (Siempre activas)</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Necesarias para el funcionamiento del sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="performance-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Rendimiento</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Recopilan datos anónimos para mejorar el sitio.</p>
+        </div>
+        <div>
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="advertising-cookies" class="form-checkbox h-5 w-5 text-yellow-500">
+            <span>Cookies de Publicidad</span>
+          </label>
+          <p class="text-sm text-gray-200 mt-1">Ofrecen anuncios personalizados.</p>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-center space-x-4">
+        <button id="save-cookie-settings" class="bg-yellow-500 text-blue-900 font-semibold py-3 px-8 rounded-lg hover:bg-yellow-400 hover-scale">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cookies Banner (Copied from index.html) -->
+  <div id="cookies-banner" class="cookies-banner hidden">
+    <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+      <p>Utilizamos cookies para mejorar tu experiencia. <a href="/legal/politica-cookies.html" class="underline">Más información</a>.</p>
+      <div class="mt-4 md:mt-0 space-x-4">
+        <button id="accept-cookies" class="bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-600">Aceptar</button>
+        <button id="customize-cookies" class="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-500">Personalizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer (Copied from index.html) -->
+  <footer class="bg-blue-900 text-white py-10">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Peritajes Profesionales</h3>
+          <p>Soluciones periciales en informática forense y más. Primera consulta gratuita.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Enlaces Rápidos</h3>
+          <ul class="space-y-2">
+            <li><a href="#inicio" class="hover:text-blue-300">Inicio</a></li>
+            <li><a href="#servicios" class="hover:text-blue-300">Servicios</a></li>
+            <li><a href="#equipo" class="hover:text-blue-300">Nuestro Equipo</a></li>
+            <li><a href="#contacto" class="hover:text-blue-300">Contacto</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Políticas Legales</h3>
+          <ul class="space-y-2">
+            <li><a href="/legal/privacidad.html" class="hover:text-blue-300">Política de Privacidad</a></li>
+            <li><a href="/legal/politica-cookies.html" class="hover:text-blue-300">Política de Cookies</a></li>
+            <li><a href="/legal/aviso-legal.html" class="hover:text-blue-300">Aviso Legal</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold mb-4">Síguenos</h3>
+          <div class="flex space-x-4">
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-linkedin text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fab fa-twitter text-2xl"></i></a>
+            <a href="#" class="hover:text-blue-300"><i class="fas fa-envelope text-2xl"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="text-center mt-8">© 2025 Peritajes Profesionales. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Scroll to Top Button -->
+  <button id="scroll-top" class="fixed bottom-6 right-6 bg-blue-700 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 hidden">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // Cookie Helper Functions (Copied from index.html)
+    function setCookie(name, value, days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      const expires = "expires=" + date.toUTCString();
+      document.cookie = name + "=" + value + ";" + expires + ";path=/";
+    }
+    function getCookie(name) {
+      const cname = name + "=";
+      const decodedCookie = decodeURIComponent(document.cookie);
+      const ca = decodedCookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(cname) == 0) {
+          return c.substring(cname.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    // Cookies Banner Logic
+    const cookiesBanner = document.getElementById('cookies-banner');
+    const acceptCookies = document.getElementById('accept-cookies');
+    const customizeCookies = document.getElementById('customize-cookies');
+    const cookieSettingsModal = document.getElementById('cookie-settings-modal');
+    const closeCookieModal = document.getElementById('close-cookie-modal');
+    const saveCookieSettings = document.getElementById('save-cookie-settings');
+
+    if (!getCookie('cookiesAccepted')) {
+      cookiesBanner.classList.remove('hidden');
+    }
+
+    acceptCookies.addEventListener('click', () => {
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', 'true', 365);
+      setCookie('advertisingCookies', 'true', 365);
+      cookiesBanner.classList.add('hidden');
+    });
+
+    customizeCookies.addEventListener('click', () => {
+      cookiesBanner.classList.add('hidden');
+      cookieSettingsModal.style.display = 'block';
+    });
+
+    saveCookieSettings.addEventListener('click', () => {
+      const performance = document.getElementById('performance-cookies').checked;
+      const advertising = document.getElementById('advertising-cookies').checked;
+      setCookie('cookiesAccepted', 'true', 365);
+      setCookie('performanceCookies', performance, 365);
+      setCookie('advertisingCookies', advertising, 365);
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    closeCookieModal.addEventListener('click', () => {
+      cookieSettingsModal.style.display = 'none';
+    });
+
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Slide-in Animation on Scroll
+    const slideElements = document.querySelectorAll('.slide-in');
+    const slideObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    slideElements.forEach(el => slideObserver.observe(el));
+
+    // Scroll to Top Button
+    const scrollTopBtn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.remove('hidden');
+      } else {
+        scrollTopBtn.classList.add('hidden');
+      }
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
